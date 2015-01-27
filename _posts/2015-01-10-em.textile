@@ -1,0 +1,142 @@
+---
+title: EM Algorithm and Its Applications
+layout: post
+category: math
+abstraction: The expectation–maximization (EM) algorithm is an iterative procedure to simplify a maximum likelihood problem which is difficult to solve directly. Firstly, we describe a simple Gaussian mixture model to bring forward the generalized EM algorithm, and than show some frequent applications of this algorithm
+---
+p<>. The expectation–maximization (EM) algorithm is an iterative method to simplify a maximum likelihood problem which is difficult to solve directly. Firstly, we describe a simple Gaussian mixture model to bring forward the generalized EM algorithm, and than show some frequent applications of this algorithm.
+
+<div class="blog-post-contents">
+    * "Mixture Gaussian model":#gauss
+    * "Generalized EM algorithm":#gem
+    * "K-means algorithm":#kmeans
+    * "Hidden Markov model":#hmm
+</div>
+
+<h3 id=gauss>Mixture Gaussian Model</h3>
+
+!{display: block;margin-left: auto;margin-right: auto;width: 30%;height: auto;}/images/em/Screen.png!
+
+p<>. The figure above shows the histogram of 20 data points. We’ d like to model density of these data points, and obviously, a Gaussian distribution would not be appropriate. Instead, we model the data with a mixture of two normal distributions: 
+
+!{display: block;margin-left: auto;margin-right: auto;}/images/em/CodeCogsEqn.gif!
+!{display: block;margin-left: auto;margin-right: auto;}/images/em/CodeCogsEqn-2.gif!
+!{display: block;margin-left: auto;margin-right: auto;}/images/em/CodeCogsEqn-3.gif!
+
+p<>. where !http://latex.codecogs.com/gif.latex?\inline&space;\Delta&space;\in&space;\left&space;\{&space;0,1&space;\right&space;\}! with !/images/em/CodeCogsEqn-4.gif!, so the parameters of this model is !/images/em/CodeCogsEqn-5.gif!, which gives the form of log-likelihood:
+
+!{display: block;margin-left: auto;margin-right: auto;}/images/em/CodeCogsEqn-6.gif!
+
+p<>. Direct maximization is numerically difficult, so we consider latent variables !http://latex.codecogs.com/gif.latex?\Delta&space;_{i}! indicating which of two normal distributions a data points is from. Than the log-likelihood can be rewrite as:
+
+!{display: block;margin-left: auto;margin-right: auto;}/images/em/CodeCogsEqn-7.gif!
+!{display: block;margin-left: auto;margin-right: auto;}/images/em/CodeCogsEqn-8.gif!
+
+p<>. Since the values of latent variables are actually unknown, we substitute each of them with the value of condition expectation under current estimates of the parameters, which could be viewed as a soft assignment of the observations to each model. In the next step, with these values, maximization of log-likelihood is trivial, and the estimates of the parameters are updated subsequently. The formulation of this algorithm is given as follows:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 90%;height: auto;}/images/em/Screen-2.png!
+
+p<>. There exists a good way to construct the initial guess of the parameters. !http://latex.codecogs.com/gif.latex?\mu&space;_{1}! and !http://latex.codecogs.com/gif.latex?\mu&space;_{2}! can be two of the !http://latex.codecogs.com/gif.latex?y! chosen at random; !http://latex.codecogs.com/gif.latex?\sigma&space;_{1}^{2}! and !http://latex.codecogs.com/gif.latex?\sigma&space;_{2}^{2}! can equals to the overall sample variance, and !http://latex.codecogs.com/gif.latex?\pi! can be started at 0.5.
+
+<h3 id=gem>Generalized EM Algorithm</h3>
+
+p<>. The procedure above is a instance of EM algorithm for maximizing likelihood in the case that direct maximization of the likelihood is difficult, but made easier by enlarge the sample with latent data. Table 1.2 gives the general formulation of EM algorithm:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 90%;height: auto;}/images/em/Screen-3.png!
+
+p<>. where !http://latex.codecogs.com/gif.latex?Z! is the observed data, having log-likelihood !/images/em/CodeCogsEqn-9.gif! depending on parameters !http://latex.codecogs.com/gif.latex?\theta!. The latent variable is !http://latex.codecogs.com/gif.latex?Z^{m}!, so that !/images/em/CodeCogsEqn-10.gif! is the complete data with log-likelihood !/images/em/CodeCogsEqn-11.gif!
+
+p<>. In the E step, according to Bayesian theory
+
+!{display: block;margin-left: auto;margin-right: auto;width: 30%;height: auto;}/images/em/Screen-4.png!
+
+p<>. we have !/images/em/CodeCogsEqn-12.gif!. As the actual value of latent variable is unknown, we replace the probabilities with corresponding conditional expectation with respect to T|Z and current estimates of parameters, so the log-likelihood has the form:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 65%;height: auto;}/images/em/Screen-5.png!
+
+p<>. In the M step, we determine new estimates of the parameters by maximizing !http://latex.codecogs.com/gif.latex?\inline&space;E[l_{0}(\theta&space;^{'};T)|Z,\theta&space;]!, and the iteration carries on until convergence achieved. The key of this algorithm is it works to iteratively improve the log-likelihood based on the complete density, say !http://latex.codecogs.com/gif.latex?\inline&space;Q(\theta&space;^{'}|\theta&space;)=E[l_{0}(\theta&space;^{'};T)|Z,\theta&space;]!, rather than directly improves the actual log-likelihood based on observed data, and the correctness is justified "here":https://en.wikipedia.org/wiki/Expectation–maximization_algorithm#Proof_of_correctness.
+
+<h3 id=kmeans>K-Means Algorithm</h3>
+
+p<>. However, it is possible to apply EM in another way, and the motivation is as follows. For a given estimate of the parameters, we can usually fine a best value of latent variable Z, by maximizing the likelihood, over all possible values of Z. Conversely, with these values settled, we can group the data points according to the values of associated latent data, which makes maximization of log-likelihood fairly easy. The k-means algorithm is a example of EM algorithm with this settings.
+
+p<>. Given a set of data points, k-means algorithm aims to group them into k sets, so as to minimise the within-cluster sum of squares:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 30%;height: auto;}https://upload.wikimedia.org/math/9/8/3/983406139b111b6676a3db71cc217f2c.png!
+
+p<>. Since the sum of squares is squared Euclidean distance, k-means procedure is closely related to the Gaussian mixture model above. In the E step, we’d rather make a hard choice of Z given the current estimate of parameters than assign a “responsibilities” of each component to each data point. Corresponding with this, we average the values of observed data in new cluster, which determined by the value of Z, to obtain the new estimate of the parameters in M step. The details of assignment (E) step and update (M) step are given as fallows:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 65%;height: auto;}https://upload.wikimedia.org/math/5/6/1/56171499da5ae8958743d8a193a4436e.png!
+!{display: block;margin-left: auto;margin-right: auto;width: 30%;height: auto;}https://upload.wikimedia.org/math/a/2/f/a2f6a26828c150b6d266d230b9b57e37.png!
+
+p<>. Likewise, the convergence value is sensitive to the start !http://latex.codecogs.com/gif.latex?\left&space;\{&space;m_{1}^{\left&space;(&space;1&space;\right&space;)},m_{2}^{\left&space;(&space;1&space;\right&space;)},...m_{k}^{\left&space;(&space;1&space;\right&space;)}&space;\right&space;\}!. Some variations (e.g. "k-means++":https://en.wikipedia.org/wiki/K-means%2B%2B) work to alleviate this problem.
+
+<h3 id=hmm>Hidden Markov Model</h3>
+
+p<>. A hidden Markov model (HMM) is a special form of Markov model in which the state is not directly visible, but the output, dependent on the state, is visible. Naturally, this problem with latent variable can be associated with EM algorithm. There are several inference problems about hidden Markov model. This article discusses the parameter learning task which can be solved by the Baum-welch algorithm, a special case of EM algorithm.
+
+!{display: block;margin-left: auto;margin-right: auto;width: 60%;height: auto;}https://upload.wikimedia.org/wikipedia/commons/8/83/Hmm_temporal_bayesian_net.svg!
+
+p<>. To learn the parameters of HMM is to derive the maximum likelihood estimate of them for a given set of output sequences. Since the output absolutely depends on the state, we introduce the state sequences as latent data to simplify maximization of the likelihood. A hidden Markov model shares with the Markov chain the assumption that the i ^th^ hidden variable, given the (i-1) ^th^ hidden variable, is independent of all previous hidden variables and time, and current output depends only on current hidden variable. With this assumption, we can describe hidden Markov chain like this:
+
+p<>. A initial state distribution
+
+!{display: block;margin-left: auto;margin-right: auto;width: 20%;height: auto;}https://upload.wikimedia.org/math/f/c/f/fcff600fb1401c401c20b9c33fe4a4f6.png!
+
+p<>. A time independent stochastic transition matrix
+
+!{display: block;margin-left: auto;margin-right: auto;width: 42%;height: auto;}https://upload.wikimedia.org/math/5/0/8/5080146300de6f45e122a2bfca116099.png!
+
+p<>. The probability of a certain observation at time t for state j is given
+
+!{display: block;margin-left: auto;margin-right: auto;width: 35%;height: auto;}https://upload.wikimedia.org/math/e/6/0/e600277f67923fbff1addc488644dd23.png!
+
+p<>. Usually we employ the Baum–Welch algorithm to find local optimal of the parameters that maximize the likelihood, that is !https://upload.wikimedia.org/math/2/8/9/2898c706da66d4d3ac6b1a68d6cb70cc.png!, where !https://upload.wikimedia.org/math/c/7/d/c7dd4f31286130346ca928cd8460a6d0.png!. Suppose we do know the values of latent variables, say the state !http://latex.codecogs.com/gif.latex?\inline&space;\left&space;\{&space;X_{1},X_{2},...X_{T}&space;\right&space;\}!, we can estimate the parameters fairly easily:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 40%;height: auto;}http://latex.codecogs.com/gif.latex?a_{ij}^{*}=\frac{count\left&space;\{&space;X_{t}=j,X_{t-1}=i&space;\right&space;\}}{count\left&space;\{&space;X_{t-1}=i&space;\right&space;\}}!
+
+p<>. and
+
+!{display: block;margin-left: auto;margin-right: auto;width: 40%;height: auto;}http://latex.codecogs.com/gif.latex?b_{i}^{*}\left&space;(&space;k&space;\right&space;)=\frac{count\left&space;\{&space;y_{t}=k,X_{t}=i&space;\right&space;\}}{count\left&space;\{&space;X_{t}=i&space;\right&space;\}}!
+
+p<>. In light of this, we give the conditional probability mass function of the latent variable respect to observed data and current estimate of parameters, than derive a new estimate with the expected number of each transitions and the times each state is observed. The details are as fallows:
+
+p<>. __Begining__
+
+p<>. Set !https://upload.wikimedia.org/math/c/7/d/c7dd4f31286130346ca928cd8460a6d0.png! with prior information about the parameters if there is any, otherwise a random value
+
+p<>. __Forward Procedure__
+
+p<>. Let !https://upload.wikimedia.org/math/1/3/e/13e03903d266321214826ba19224407f.png!, the probability of seeing the !https://upload.wikimedia.org/math/7/7/9/77925b05c167135bf34e19f07479b17b.png! and being in state __i__ at time __t__, and
+
+!{display: block;margin-left: auto;margin-right: auto;}https://upload.wikimedia.org/math/3/8/5/38575a3493ad507500ed22e9c6ef136e.png!
+
+!{display: block;margin-left: auto;margin-right: auto;}https://upload.wikimedia.org/math/b/e/4/be435d15f1a189ec5f1e3c1fb09cfa77.png!
+
+p<>. __Backward Procedure__
+
+p<>. Let !https://upload.wikimedia.org/math/7/1/8/718391a46cbf71878cde7c3d353dccb5.png!, the probability of the ending partial sequence !https://upload.wikimedia.org/math/7/2/d/72d4f0fec008e2204f623fde18d2fd82.png! given starting state __i__ at time __t__, and
+
+!{display: block;margin-left: auto;margin-right: auto;}https://upload.wikimedia.org/math/9/d/0/9d09847ed057bcaa0b9f021077a61e5b.png!
+
+!{display: block;margin-left: auto;margin-right: auto;}https://upload.wikimedia.org/math/b/1/4/b14acf93528a159ff2984882277f28a0.png!
+
+p<>. __Update__
+
+p<>. After forward and backward procedures, we can now calculate the probability of being in state __i__ at time __t__ given the observed sequence __Y__ and current estimate of parameters:
+
+!{display: block;margin-left: auto;margin-right: auto;}https://upload.wikimedia.org/math/a/4/4/a44c6281ae3ed277060d27bac1f99f01.png!
+
+and the probability of being in state __i__ and __j__ at times __t__ and __(t+1)__ respectively:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 95%;height: auto}https://upload.wikimedia.org/math/8/6/7/867226ec810c6bca9eec6a70bd1c30d9.png!
+
+p<>. Than we can substitute !http://latex.codecogs.com/gif.latex?count\left&space;\{&space;X_{t}=j,X_{t-1}=i&space;\right&space;\}!, !http://latex.codecogs.com/gif.latex?count\left&space;\{&space;y_{t}=k,X_{t}=i&space;\right&space;\}! and !http://latex.codecogs.com/gif.latex?count\left&space;\{X_{t}=i&space;\right&space;\}! with their expected values, which gives the new estimate of parameters:
+
+!{display: block;margin-left: auto;margin-right: auto;}https://upload.wikimedia.org/math/4/f/3/4f360962316d11c840307ecbd7c0f470.png!
+
+!{display: block;margin-left: auto;margin-right: auto;}https://upload.wikimedia.org/math/3/5/f/35fd6c44d7313a417d35aad2e1745f62.png!
+
+!{display: block;margin-left: auto;margin-right: auto;}https://upload.wikimedia.org/math/7/9/c/79cd7245a0d95d2ee87b6675a3578b01.png!
+
+p<>. Unfortunately, Baum-Welch algorithm also can't guarantee a global optimal due to the nature of EM algorithm.

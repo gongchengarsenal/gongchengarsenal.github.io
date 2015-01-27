@@ -1,0 +1,107 @@
+---
+title: Gradienting Boosting Tree
+layout: post
+category: math
+abstraction: Gradient boosting tree is a learning machine which produces an additive expension with regression trees as the basis function. Gradient boosting tree builds the model iteratively by fitting a single tree at each step like other boosting methods do, and it generalizes them by allowing arbitrary differentiable loss function
+---
+p<>. Gradient boosting tree is a learning machine which produces an additive expension with regression trees as the basis function. Gradient boosting tree builds the model iteratively by fitting a single tree at each step like other boosting methods do, and it generalizes them by allowing arbitrary differentiable loss function.
+
+<div class="blog-post-contents">
+    * "Boosting method":#bst
+    * "Gradient boosting":#gbst
+    * "Implement a GBT":#imp
+</div>
+
+<h3 id=bst>Boosting Method</h3>
+
+p<>. Boosting is believed to be one of the most powerful learning method. The motivation is to combine many "weak learners" to produce a powerful "committee". From this perspective, the boosting method seems to bear a resemblance to bagging or other committee-based techniques. However we shall see that boosting is fundamentally different.
+
+p<>. The key of boosting method lies in the fact that it fits an additive expension in a forword stagewise fashion. Generally, the additive expension has the form:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 30%;height: auto;}/images/gbt/Screen.png!
+
+p<>. where !http://latex.codecogs.com/gif.latex?\beta&space;_{m},&space;m=1,2,..,M! are expension coefficients, and !/images/gbt/CodeCogsEqn-2.gif! is usually a simple function of multivariate argument __x__. Typically the model is fit by minimizing a loss function over the training data:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 50%;height: auto;}/images/gbt/Screen-2.png!
+
+p<>. which always, for many loss functions !/images/gbt/CodeCogsEqn.gif! and basis functions !/images/gbt/CodeCogsEqn-2.gif!, requires intensive numerical computation. So the boosting method works to make the computation affordable by rapidly fitting just a single basis function at each time, and add new basis function to the expension without adjusting the previous ones. The procedures can be described as:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 80%;height: auto;}/images/gbt/Screen-3.png!
+
+p<>. Generally, we let a regression tree be the basis function. The regression tree has the formal expression:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 40%;height: auto;}/images/gbt/Screen-4.png!
+
+p<>. with parameters !http://latex.codecogs.com/gif.latex?\Theta&space;=&space;\left&space;\{&space;R_{j},\gamma&space;_{j}&space;\right&space;\}!, where !http://latex.codecogs.com/gif.latex?R_{j}! are __J__ regions of the space of all joint variables and !http://latex.codecogs.com/gif.latex?\gamma&space;_{j}! are output values assigned to each region. So the 2(a) step is rewrite as:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 60%;height: auto;}/images/gbt/Screen-5.png!
+
+p<>. When the regions !http://latex.codecogs.com/gif.latex?R_{j}! are given, searching the optimal constant values !http://latex.codecogs.com/gif.latex?\gamma&space;_{j}! is quite straightforward:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 58%;height: auto;}/images/gbt/Screen-6.png!
+
+p<>. However finding the regions is much more difficult. For some special cases, e.g. square loss and exponential loss, this problem simplifies, and is even no harder than finding the regions for a single tree. Take the square loss for instance, one has:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 83%;height: auto;}http://latex.codecogs.com/gif.latex?L\left&space;(&space;y_{i},&space;f_{m-1}\left&space;(&space;x_{i}&space;\right&space;)&space;&plus;T\left&space;(&space;x_{i};\Theta&space;_{m}&space;\right&space;)\right&space;)&space;=&space;\sum_{i=1}^{N}\left&space;(&space;y_{i}&space;-&space;f_{m-1}\left&space;(&space;x_{i}&space;\right&space;)&space;-T\left&space;(&space;x_{i};\Theta&space;_{m}&space;\right&space;)&space;\right&space;)^{2}!
+
+p<>. So at each step, we simply build a regression tree to fit the current residuals over training data. Nevertheless, some other loss criteria such as absolute error or deviance loss does not give rise to a fast boosting algorithm. The Gradient boosting is a simple alternative to solve the problem of this case.
+
+<h3 id=gbst>Gradient Boosting</h3>
+
+p<>. Gradient boosting is a functional gradient descent view of boosting. Given loss function __L__, the goal is to minimize __L(y, f)__ with respect to __f__, where __f(x)__ is the additive expension which is constrained to be a sum of regression trees. For a differentiable L, the gradient descent method works to minimize __L(y, f)__ by calculating the gradient of L respect to f, and updating f in the negative gradient direction. As the values of gradient can only be measured at the observed points, we transfer the problem from the function space to a N-dimension vector space, where
+
+!{display: block;margin-left: auto;margin-right: auto;width: 45%;height: auto;}/images/gbt/Screen-7.png!
+
+!{display: block;margin-left: auto;margin-right: auto;width: 30%;height: auto;}/images/gbt/Screen-8.png!
+
+p<>. Than the step size is decided by line search:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 42%;height: auto;}/images/gbt/Screen-10.png!
+
+p<>. The component of gradient vector is:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 45%;height: auto;}/images/gbt/Screen-9.png!
+
+p<>. The gradient is defined only at the observed points, whereas our ultimate goal is to generalize __f(x)__ to the future data. A possible solution to this dilemma is to induce a regression tree at each step whose prediction is as close as possible to the negative gradient. That is to say, we fit a tree to the negative gradient with square error as the criteria:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 50%;height: auto;}/images/gbt/Screen-11.png!
+
+p<>. Instead of performing a seperate line search in deepest descent, we find the regions !http://latex.codecogs.com/gif.latex?R_{j}! by squere error criteria, and then decide the !http://latex.codecogs.com/gif.latex?\gamma&space;_{j}! within each region by the given loss function __L__:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 85%;height: auto;}/images/gbt/Screen-12.png!
+
+p<>. In the two-class classification problem, the response is Bernoulli distributed, so we prefer to take the logit model with the form:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 38%;height: auto;}/images/gbt/Screen-13.png!
+
+p<>. and fit it by the deviance loss:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 60%;height: auto;}/images/gbt/Screen-14.png!
+
+p<>. Accordingly, the pseudo-residual in 2(a) is:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 47%;height: auto;}/images/gbt/CodeCogsEqn-4.gif!
+
+p<>. and the Newton-Raphson method gives a numerical solution to !http://latex.codecogs.com/gif.latex?\gamma&space;_{jm}!:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 40%;height: auto;}/images/gbt/CodeCogsEqn-5.gif!
+
+<h3 id=imp>Implement a GBT</h3>
+
+p<>. There are three primary parameters in building a gradient boosting tree: tree size, the number of trees and shrinkage. Since a tree can be viewed as a partition of the space of joint variables, the number of leaf nodes limits the degree to which variables interact with each other. For a tree with __J__ leaf nodes, interaction of level higher than __J-1__ is not allowed. Generally a value of 4 ~ 8 is good enough. Each iteration usually reduces the training risk, so that for __M__ large enough the risk can be arbitrary small, which necessarily leads to overfitting on the training data. There is a convinent way to estimate the optimal __M ^*^__ minimizing the future risk. We can monitor the prediction loss on validation data as function of __M__, and use the early stopping strategy to decide when to stop. Shrinkage is another way to regularize the model. Each time a new tree added to the model, we always impose a shrinkage factor on it, which controls the rate that function __f__ "moves" in the negative gradient direction. A very small value (<0.1) always yields models with better generalization ability.
+
+p<>. When you write a GBT software, there are several considerations worth your attention. Finding the optimal regions !http://latex.codecogs.com/gif.latex?R_{j}! is the most time-consuming step in building a regression tree. Each time we split an interior node of the tree, we consider a splitting variable __j__ and split point __s__, and define the half-planes:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 63%;height: auto;}/images/gbt/Screen-15.png!
+
+p<>. Then we seek the best binary partition that solves
+
+!{display: block;margin-left: auto;margin-right: auto;width: 70%;height: auto;}/images/gbt/Screen-16.png!
+
+p<>. For any choice of __(j,s)__, the inner minimization is achieved at
+
+!{display: block;margin-left: auto;margin-right: auto;width: 75%;height: auto;}/images/gbt/Screen-17.png!
+
+p<>. so actually we are minimizing the sum of variance within two half-planes. Given a variable __j__, this can be done by sorting the data points by the value of variable __j__ and scanning through all of them. The sufficient statistics for calculating variance, which consists of !http://latex.codecogs.com/gif.latex?\inline&space;\sum_{i\in&space;R_{1}\left&space;(&space;j,s&space;\right&space;)}\gamma&space;_{im}!, !http://latex.codecogs.com/gif.latex?\inline&space;\sum_{i\in&space;R_{2}\left&space;(&space;j,s&space;\right&space;)}\gamma&space;_{im}!, !http://latex.codecogs.com/gif.latex?\inline&space;\sum_{i\in&space;R_{1}\left&space;(&space;j,s&space;\right&space;)}\gamma_{im}^{2}! and !http://latex.codecogs.com/gif.latex?\inline&space;\sum_{i\in&space;R_{2}\left&space;(&space;j,s&space;\right&space;)}\gamma_{im}^{2}! are updated as the scanning proceeds. The time complexity is __O(nlogn)__. Obviousely, searching the best splitting point of a certain variable is independent to that of another, hence parallelization shall dramtically accelerate this procedure.
+
+p<>. Another trick further improves the time performance at the cost of negligible accuracy loss. Suppose the value range of each variable was divided into __k__ bins beforehand, we can preprocess the training data by mapping original values to corresponding bins. To find a splitting point __s__ for variable __j__, we simply parse through the binned values and collect the sufficient statistics of each bin. Without the sorting step, time complexity is reduced to __O(n)__. Though many discretization technique can be used to decide the bins, a test shows that the accuracy is not as sensitive as one may expect to the choice of bins. The quantile is preferable in most cases for its good performance and cheap computation. What's more, this strategy allows a distributed tree algorithm. A single-machine version GBT in Java and a distributed one based on Spark are available in "my Git":https://github.com/gongchengarsenal.

@@ -1,0 +1,21 @@
+---
+layout: resume
+---
+<h3 style="text-align:center;"><strong>GONG CHENG</strong></h3>
+* Tel: (+86) 137 1761 0319
+* Email: gongcheng2013@hotmail.com
+<br>
+<h3 style="text-align:center;"><strong>PROFESSIONAL SKILL</strong></h3>
+* Proficient in data structure & algorithm. Python = Java > R = Scala
+* Strong background in statistics, linear algebra and machine learning
+* Fluent English, good reading and writing skills
+<br>
+<h3 style="text-align:center;"><strong>WORK EXPERIENCE</strong></h3>
+* _*Microsoft STC Asia*_ _(intership 2013.7-2013.10)_
+* Participated in developing a click prediction model. Kmeans and CART is for binning and crossing features. The prediction model is based on Logistic Regression
+* Mainly in charge of feature design (selection, binning and crossing), and bug fixing of the pipeline
+* _*Meituan*_, _*mobile search team*_ _(2013.12-2015.3)_
+<br>
+<h3 style="text-align:center;"><strong>EDUCATION</strong></h3>
+* M.S., Communication and Information System, Beijing University of Posts and Communications, Major GPA: 84
+* B.S., Optical Information Science and Technology, Nanjing University of Aeronautics and Astronautics, Major GPA: 80

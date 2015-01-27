@@ -1,0 +1,7 @@
+name: "Gong's Page"
+description: "stay hungry, stay foolish"
+
+url: “http://localhost:4000”
+permalink: /:categories/:year/:month/:day/:title.html
+
+paginate: 10

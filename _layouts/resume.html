@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="{{ site.description }}">
+        <title>{{ site.name }}</title>
+        
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/my.blog.css" rel="stylesheet">
+        <style id="holderjs-style" type="text/css"></style> 
+    </head>
+    
+    <body>
+        <div class="blog-masthead">
+            <div class="container">
+                <nav class="blog-nav">
+                    <a class="blog-nav-item" href="/index.html">Home</a>
+                    <a class="blog-nav-item" href="/math/index.html">Math</a>
+                    <a class="blog-nav-item" href="/coding/index.html">Coding</a>
+                    <a class="blog-nav-item" href="/gallery/index.html">Gallery</a>
+                    <a class="blog-nav-item active" href="#">Resume</a>
+                </nav>
+            </div>
+        </div>
+        <div class="container">
+            <div class="blog-header">
+                {% include header.html %}
+            </div>
+            <div class="row">
+                <div class="col-sm-8 blog-main">
+                    {{ content }}
+                </div>
+                <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+                    {% include sidebar.html %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

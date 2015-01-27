@@ -1,0 +1,18 @@
+<div class="sidebar-module sidebar-module-inset">
+    <h4>About Me</h4>
+    <div class="portrait">
+        <img src="/images/photo.JPG" width="150" />
+    </div>
+    <p>A programmer living in Beijing, keen on coding, mathematics and rock music.</p>
+</div>
+
+<div class="sidebar-module">
+    <h4>Archives</h4>
+    {% for post in site.posts %}
+        {% capture pmonth %}{{ post.previous.date | date: '%B, %Y' }}{% endcapture %}
+        {% capture month %}{{ post.date | date: '%B, %Y' }}{% endcapture %}
+        {% if pmonth != month %}
+            <li><a href="#">{{ post.date | date: '%B, %Y' }}</a></li>
+        {% endif %}
+    {% endfor %}
+</div>
