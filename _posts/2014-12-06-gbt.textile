@@ -2,7 +2,6 @@
 title: Gradienting Boosting Tree
 layout: post
 category: math
-abstraction: Gradient boosting tree is a learning machine which produces an additive expension with regression trees as the basis function. Gradient boosting tree builds the model iteratively by fitting a single tree at each step like other boosting methods do, and it generalizes them by allowing arbitrary differentiable loss function
 ---
 p<>. Gradient boosting tree is a learning machine which produces an additive expension with regression trees as the basis function. Gradient boosting tree builds the model iteratively by fitting a single tree at each step like other boosting methods do, and it generalizes them by allowing arbitrary differentiable loss function.
 

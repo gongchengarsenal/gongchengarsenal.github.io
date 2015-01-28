@@ -2,7 +2,6 @@
 title: EM Algorithm and Its Applications
 layout: post
 category: math
-abstraction: The expectation–maximization (EM) algorithm is an iterative procedure to simplify a maximum likelihood problem which is difficult to solve directly. Firstly, we describe a simple Gaussian mixture model to bring forward the generalized EM algorithm, and than show some frequent applications of this algorithm
 ---
 p<>. The expectation–maximization (EM) algorithm is an iterative method to simplify a maximum likelihood problem which is difficult to solve directly. Firstly, we describe a simple Gaussian mixture model to bring forward the generalized EM algorithm, and than show some frequent applications of this algorithm.
 
