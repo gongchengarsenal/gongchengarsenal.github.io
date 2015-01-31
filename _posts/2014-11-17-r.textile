@@ -3,7 +3,7 @@ title: Brief Introduction to R
 layout: post
 category: coding
 ---
-p<>. R is a scripting language for statistical data manipulation and analysis getting popularity in recent years. The open-source nature means it’s easy to get help from user community, and lots of new packages get contributed by users. Though the R language bears all characteristics of a programming language, to grasp the core of it should suffice for most usage scenario. This article is a brief introduction to the five most frequently-used R data structures: 
+p<>. R is a scripting language for statistical data manipulation and analysis getting popularity in recent years. The open-source nature means it’s easy to get help from user community, and lots of new packages get contributed by users. Though the R language bears all characteristics of a programming language, to grasp the core of it should suffice for most usage scenario. This article is a brief introduction to the five most frequently-used R data structures. 
 
 <div class="blog-post-contents">
     * "vector":#vct
@@ -15,7 +15,7 @@ p<>. R is a scripting language for statistical data manipulation and analysis ge
 
 p<>. We shall browser through them one by one.
 
-<h4 id=vct>__**Vector**__</h4>
+<h4 id=vct>**Vector**</h4>
 
 p<>. Objects are actually considered one-element vectors, so there is really no such thing as a scalar:
 
@@ -55,7 +55,7 @@ p<>. is actually
 bc. > c(1,2,3,4) %% c(2,2,2,2) == c(0,0,0,0)
 [1] FALSE  TRUE FALSE  TRUE
 
-<h4 id=mx>__**Matrix**__</h4>
+<h4 id=mx>**Matrix**</h4>
 
 p<>. An array is a vector with the "dim" attribute. A two-dimensional array is called matrix, which is eligible for usual matrix mathematical operations. For instance:
 
@@ -94,7 +94,7 @@ $dim
 
 p<>. Than, r is still a matrix.
 
-<h4 id=lst>__**List**__</h4>
+<h4 id=lst>**List**</h4>
 
 p<>. Other than the vector or matrix whose elements are of the same mode, list is prettey much like C **struct**. The components of a list could have distinct modes. One may initiate a list in this way:
 
@@ -135,7 +135,7 @@ p<>. The reture is still a list:
 bc. > class(lst[1])
 [1] "list"
 
-<h4 id=df>__**Data.frame**__</h4>
+<h4 id=df>**Data.frame**</h4>
 
 p<>. A data.frame is in fact a list with list components as the data.frame columns. So the declaration is very much like that of a list:
 
@@ -184,7 +184,7 @@ $salary
 
 p<>. The return is a list containing result of each column.
 
-<h4 id=fct>__**Factor**__</h4>
+<h4 id=fct>**Factor**</h4>
 
 p<>. We can encode a vector as a factor whose elements are of categorical type, called "levels". Once a factor is declared, its levels attribute can't be changed. So you are not allowed to assign a value which is not in the levels to a element of the factor:
 

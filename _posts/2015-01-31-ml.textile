@@ -1,0 +1,58 @@
+---
+title: The Logic of Machine Learning
+layout: post
+category: math
+---
+p<>. First keep in mind that a machine learning problem is the mathematical abstraction of a real-world problem. So, to solve a real-world problem correctly one should proceed in two steps. Make an appropriate abstraction, say the machine learning problem first, and than solve this problem. Though the former is the prerequisite, it is a rather domain specific consideration, so this article shall starts from the more general step 2.
+
+h4. **Link function**
+
+p<>. In supervised learning, a model is in fact a predictor __f(x)__. Given a input __x__, it yields the outcome. What the predictor estimates absolutely depends on the response, that is to say we need a link function to bridge the predictor __f(x)__ and the mean of the response distribution.
+
+p<>. A regression model has the form:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 20%;height: auto;}http://latex.codecogs.com/gif.latex?Y=f\left&space;(&space;x&space;\right&space;)&space;&plus;&space;e!
+
+p<>. where !/images/ml/CodeCogsEqn-3.gif!. So the response is Normal distributed which gives an identical link function:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 23%;height: auto;}/images/ml/CodeCogsEqn.gif!
+
+p<>. While in the binary classification problem, the response is Bernoulli distributed, and a __logit__ link function would be appropriate:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 40%;height: auto;}/images/ml/CodeCogsEqn-2.gif!
+
+!{display: block;margin-left: auto;margin-right: auto;width: 60%;height: auto;}/images/ml/CodeCogsEqn-6.gif!
+
+p<>. Sigmoid function is differentiable and has a range from 0 to !http://latex.codecogs.com/gif.latex?&plus;\infty!, making it suitable for a scoring binary classifier.
+
+h4. **Model fitting**
+
+p<>. We can view the model fitting process from two perspectives, which are of one nature in the end. One is Maximizing likelihood and the other Minimizing empirical risk. To justify this idea, we still focuse on cases of regression and binary classification for the typicality.
+
+p<>. In the regression problem where !/images/ml/CodeCogsEqn-5.gif!, for given observations !http://latex.codecogs.com/gif.latex?\inline&space;\left&space;\{&space;y_{1},y_{2},...y_{N},&space;x_{1},x_{2},...x_{N}&space;\right&space;\}! the log-likelihood is:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 70%;height: auto;}/images/ml/CodeCogsEqn-4.gif!
+
+p<>. Ignoring the constant terms, maximizing the log-likelihood equals to minimizing empirical risk !http://latex.codecogs.com/gif.latex?\inline&space;\sum_{i=1}^{N}\left&space;(&space;y_{i}-f\left&space;(&space;x_{i}&space;\right&space;)&space;\right&space;)^{2}!, in terms of square error.
+
+p<>. Binary classification is a little bit more complicated. Logistic regression and GBT are typical models for solving such a problem. To simplify the derivation process we usually explain logistic regression by maximizing log-likelihood, while the GBT by minimizing empirical risk in terms of the deviance loss. We will prove that the equivalence holds again.
+
+p<>. With !/images/ml/CodeCogsEqn-2.gif! and !http://latex.codecogs.com/gif.latex?\inline&space;Y\in&space;\left&space;\{&space;0,1&space;\right&space;\}!, the log-likelihood is:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 68%;height: auto;}/images/ml/CodeCogsEqn-7.gif!
+
+!{display: block;margin-left: auto;margin-right: auto;width: 63%;height: auto;}/images/ml/CodeCogsEqn-8.gif!
+
+p<>. While in GBT we have !/images/ml/CodeCogsEqn-9.gif! and !http://latex.codecogs.com/gif.latex?\inline&space;Y\in&space;\left&space;\{&space;-1,1&space;\right&space;\}!, hense the empirical risk:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 37%;height: auto;}/images/ml/CodeCogsEqn-10.gif!
+
+!{display: block;margin-left: auto;margin-right: auto;width: 59%;height: auto;}/images/ml/CodeCogsEqn-11.gif!
+
+!{display: block;margin-left: auto;margin-right: auto;width: 69%;height: auto;}/images/ml/CodeCogsEqn-12.gif!
+
+p<>. Obviously, they are of the same form, and the predictors __f(x)__ just differ by a constant factor.
+
+h4. **predictor**
+
+p<>. By now, the choice of __f(x)__ is not a concern at all. It could be any function with a real number range as long as there exists a computationally practical algorithm to fit it in terms of the likelihood or empirical risk.
