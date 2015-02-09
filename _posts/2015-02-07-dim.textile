@@ -52,9 +52,11 @@ p<>. Again let !http://latex.codecogs.com/gif.latex?\inline&space;Y=\Sigma&space
 
 <h3 id="con">More considerations</h3>
 
-p<>. Although PCA works well on many real world problems, one may ask when and why PCA fails. Plot below is the clouds of two data sets where PCA fails to recover the most infomative variables.
+p<>. Although PCA works well on many real world problems, one may ask when and why PCA fails. Plot below shows two data sets where PCA fails to recover the most infomative variables.
 
 !{display: block;margin-left: auto;margin-right: auto;width: 70%;height: auto;}/images/dim/Screen.png!
+
+p<>. In Pearson's original paper, the analysis is restricted in physical Euclidean space where the scaling of the variables is out of concerns. While it is worth our attention whenever different variables have different units, as the variables with far larger scale will necessarily dominate the principal components, thus the analysis becomes a somewhat arbitray method.
 
 p<>. The motivation of PCA is to diagonalize the sample covariance matrix, which is a measure of linear relation between variables. Only in parts of distributions, e.g. Gaussian distribution, linear relation is a perfect measure of the relation between variables. Generally we say PCA is under the Gaussian assumption. While in the cases above, the original variables are heavily related in a non-linear fasion and Gaussian distribution is far from an appropriate approximation to the data.
 
