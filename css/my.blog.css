@@ -62,6 +62,7 @@ h4, .h4 {
 .blog-nav .active {
   color: #fff;
 }
+
 .blog-nav .active:after {
   position: absolute;
   bottom: 0;

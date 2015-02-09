@@ -13,7 +13,7 @@ p<>. A regression model has the form:
 
 !{display: block;margin-left: auto;margin-right: auto;width: 20%;height: auto;}http://latex.codecogs.com/gif.latex?Y=f\left&space;(&space;x&space;\right&space;)&space;&plus;&space;e!
 
-p<>. where !/images/ml/CodeCogsEqn-3.gif!. So the response is Normal distributed which gives an identical link function:
+p<>. where !/images/ml/CodeCogsEqn-3.gif!. So the response is Normal distributed which gives an identity link function:
 
 !{display: block;margin-left: auto;margin-right: auto;width: 23%;height: auto;}/images/ml/CodeCogsEqn.gif!
 
@@ -23,7 +23,7 @@ p<>. While in the binary classification problem, the response is Bernoulli distr
 
 !{display: block;margin-left: auto;margin-right: auto;width: 60%;height: auto;}/images/ml/CodeCogsEqn-6.gif!
 
-p<>. Sigmoid function is differentiable and has a range from 0 to !http://latex.codecogs.com/gif.latex?&plus;\infty!, making it suitable for a scoring binary classifier.
+p<>. Sigmoid function has continous derivative and a range from 0 to 1, making it suitable for a scoring binary classifier.
 
 h4. **Model fitting**
 
@@ -33,7 +33,7 @@ p<>. In the regression problem where !/images/ml/CodeCogsEqn-5.gif!, for given o
 
 !{display: block;margin-left: auto;margin-right: auto;width: 70%;height: auto;}/images/ml/CodeCogsEqn-4.gif!
 
-p<>. Ignoring the constant terms, maximizing the log-likelihood equals to minimizing empirical risk !http://latex.codecogs.com/gif.latex?\inline&space;\sum_{i=1}^{N}\left&space;(&space;y_{i}-f\left&space;(&space;x_{i}&space;\right&space;)&space;\right&space;)^{2}!, in terms of square error.
+p<>. Ignoring the constant terms, maximizing the log-likelihood equals to minimizing empirical risk !http://latex.codecogs.com/gif.latex?\inline&space;\sum_{i=1}^{N}\left&space;(&space;y_{i}-f\left&space;(&space;x_{i}&space;\right&space;)&space;\right&space;)^{2}!, in terms of squared error.
 
 p<>. Binary classification is a little bit more complicated. Logistic regression and GBT are typical models for solving such a problem. To simplify the derivation process we usually explain logistic regression by maximizing log-likelihood, while the GBT by minimizing empirical risk in terms of the deviance loss. We will prove that the equivalence holds again.
 
@@ -51,7 +51,7 @@ p<>. While in GBT we have !/images/ml/CodeCogsEqn-9.gif! and !http://latex.codec
 
 !{display: block;margin-left: auto;margin-right: auto;width: 69%;height: auto;}/images/ml/CodeCogsEqn-12.gif!
 
-p<>. Obviously, they are of the same form, and the predictors __f(x)__ just differ by a constant factor.
+p<>. Obviously, the negative log-likelihood and empirical risk are of the same form, and the corresponding predictors __f(x)__ just differ by a constant factor.
 
 h4. **predictor**
 

@@ -1,0 +1,61 @@
+---
+title: Dimension Reduction and LSA
+layout: post
+category: math
+---
+p<>. In machine learning and statistics, dimension reduction is a well used process of reducing the number of random variables. This article focuses on two linear dimension reduction techniques principal components analysis (PCA) and singular value decomposition (SVD), especially the implicit relation between them. Latent semantic analysis is nothing more than a SVD procedure, so it will be introduced as a example of how SVD is applied to natural language processing.
+
+<div class="blog-post-contents">
+    * "Dimension reduction":#dim
+    * "Latent semantic analysis":#lsa
+    * "More considerations":#con
+</div>
+
+<h3 id="dim">Dimension reduction</h3>
+
+p<>. We shall start with principal components analysis. Let the !http://latex.codecogs.com/gif.latex?\inline&space;m\times&space;n! matrix __X__ be the original data set, where each column is a single sample. Suppose __X__ is in the mean-deviation form, so that !http://latex.codecogs.com/gif.latex?\inline&space;C_{X}=XX^{T}! is the sample covariance matrix. The diagonal entries of !http://latex.codecogs.com/gif.latex?\inline&space;C_{X}! are variance of particular variable, and by assumption, larger values are of more interest. The off-diagonal entries are covariance between variables, which correspond to the redundancy of data. The goal of principal compononts analysis is to find a orthogonal !http://latex.codecogs.com/gif.latex?\inline&space;m\times&space;m! matrix __U__ that determin a change of variable, __X=UY__, with the property that the new variables !http://latex.codecogs.com/gif.latex?\inline&space;\left&space;\{&space;y_{1},y_{2},...,y_{n}&space;\right&space;\}! are uncorrelated and arranged in order of decreasing variance.
+
+p<>. It is not difficult to verify that for any orthogonal matrix __U__, !http://latex.codecogs.com/gif.latex?\inline&space;C_{Y}=YY^{T}=U^{T}C_{X}U! is the sample covariance matrix of __Y__. As has proved that a matrix is orthogonally diagonalizable if and only if it is a symmetrical matrix, we could find a particular __U__ and have !http://latex.codecogs.com/gif.latex?\inline&space;C_{Y}=U^{T}C_{X}U=D!. Now that the covariance matrix is a diagonal matrix, the new variables are uncorrelated and arranged in order of decreasing variance.
+
+p<>. Compared with principal components analysis, singular value decomposition is derived in a much more unmotivated fasion. The definition is given as follows:
+
+bq.. Let __X__ be an !http://latex.codecogs.com/gif.latex?\inline&space;m\times&space;n! matrix with rank __r__. There exists an !http://latex.codecogs.com/gif.latex?\inline&space;m\times&space;n! matrix __D__ in which the first non-zero diagonal entries are the first __r__ singular values of __X__, and there exist an !http://latex.codecogs.com/gif.latex?\inline&space;m\times&space;m! orthogonal matrix __U__ and an !http://latex.codecogs.com/gif.latex?\inline&space;n\times&space;n! orthogonal matrix V sush that:
+
+!{display: block;margin-left: auto;margin-right: auto;}http://latex.codecogs.com/gif.latex?X=UDV^{T}!
+
+p<>. where !http://latex.codecogs.com/gif.latex?\inline&space;v_{i}! are corresponding eigenvectors of !http://latex.codecogs.com/gif.latex?\inline&space;X^{T}X! and !http://latex.codecogs.com/gif.latex?u_{i}=\frac{1}{\sigma&space;_{i}}Av_{i}!.
+
+p<>. One can make this definition more understandable by linking it with principal components analysis. We have the matrix products:
+
+!{display: block;margin-left: auto;margin-right: auto;}/images/dim/CodeCogsEqn.gif!
+!{display: block;margin-left: auto;margin-right: auto;}/images/dim/CodeCogsEqn-2.gif!
+
+p<>. and let !http://latex.codecogs.com/gif.latex?\inline&space;Y=DV^{T}!. Obviousely, principal components analysis and singular value decomposition share identical form. In fact singular value decomposition is the main tool for performing principal components analysis in practical applications, because iterative estimation of the SVD of __X__ is faster and more accurate then eigenvalue decomposition of !http://latex.codecogs.com/gif.latex?\inline&space;X^{T}X!.
+
+<h3 id="lsa">Latent semantic analysis</h3>
+
+p<>. Latent semantic analysis is a technique of analyzing relationships between a set of documents and the terms they contain by producing a set of latent concepts related to the documents and terms. The input is a term-document matrix which describes the occurrences of terms in documents. The rows correspond to terms and columns correspond to documents. A typical weighting of the elements of the matrix is tf-idf, in which the impact of long documents and popular terms are considered.
+
+p<>. Than, we apply a compact SVD !http://latex.codecogs.com/gif.latex?\inline&space;X=U\Sigma&space;V^{T}! to the occurrence matrix, in which only the __l__ column vectors of __U__ and __V__ corresponding to the __l__ non-zero singular values are calculated. Now the decomposition looks like this:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 95%;height: auto;}https://upload.wikimedia.org/math/b/d/7/bd7574db37d4bf6f425376958114c825.png!
+
+p<>. It turns out that when you select the __k__ largest singular values, and their corresponding singular vectors from __U__ and __V__, you get the rank __k__ approximation to __X__ with the smallest error:
+
+!{display: block;margin-left: auto;margin-right: auto;}https://upload.wikimedia.org/math/f/4/0/f40a9d1951a5b232095e07e720c40b60.png!
+
+p<>. Again let !http://latex.codecogs.com/gif.latex?\inline&space;Y=\Sigma&space;V^{T}! such that the matrix __U__ defines a change of variable __X=UY__. We can now do the following:
+
+* Comparing documents __j__ and __q__ in the __k__-dimensional space by comparing the vectors !https://upload.wikimedia.org/math/d/4/8/d48bf0c5d796cd7129104f02903526a7.png! and !https://upload.wikimedia.org/math/7/3/5/73504ad62a1375c5157b177fd6ef8e09.png!.
+* Comparing terms __i__ and __p__ in the __k__-dimensional space by comparing the vectors !https://upload.wikimedia.org/math/b/8/c/b8c73253d8c92466f90f688d9f1317d2.png! and !https://upload.wikimedia.org/math/a/1/7/a1724938177134815788d98c20b7dabb.png!.
+* Any traditional clustering algorithms or other analyses can be applied in this reduced __k__-dimensional space.
+
+<h3 id="con">More considerations</h3>
+
+p<>. Although PCA works well on many real world problems, one may ask when and why PCA fails. Plot below is the clouds of two data sets where PCA fails to recover the most infomative variables.
+
+!{display: block;margin-left: auto;margin-right: auto;width: 70%;height: auto;}/images/dim/Screen.png!
+
+p<>. The motivation of PCA is to diagonalize the sample covariance matrix, which is a measure of linear relation between variables. Only in parts of distributions, e.g. Gaussian distribution, linear relation is a perfect measure of the relation between variables. Generally we say PCA is under the Gaussian assumption. While in the cases above, the original variables are heavily related in a non-linear fasion and Gaussian distribution is far from an appropriate approximation to the data.
+
+p<>. Likewise, when we apply SVD to the occuerence matrix, we can hardly say the words and documents form a joint Gaussian model. In fact, a Poisson distribution has been observed. Thus, a newer alternative probabilistic LSA, based on a multinomial model, is reported to give better results than standard LSA.
