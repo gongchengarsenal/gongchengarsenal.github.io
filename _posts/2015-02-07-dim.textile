@@ -8,6 +8,7 @@ p<>. In machine learning and statistics, dimension reduction is a well used proc
 <div class="blog-post-contents">
     * "Dimension reduction":#dim
     * "Latent semantic analysis":#lsa
+    * "Numerical note":#note
     * "More considerations":#con
 </div>
 
@@ -15,15 +16,41 @@ p<>. In machine learning and statistics, dimension reduction is a well used proc
 
 p<>. We shall start with principal components analysis. Let the !http://latex.codecogs.com/gif.latex?\inline&space;m\times&space;n! matrix __X__ be the original data set, where each column is a single sample. Suppose __X__ is in the mean-deviation form, so that !http://latex.codecogs.com/gif.latex?\inline&space;C_{X}=XX^{T}! is the sample covariance matrix. The diagonal entries of !http://latex.codecogs.com/gif.latex?\inline&space;C_{X}! are variance of particular variable, and by assumption, larger values are of more interest. The off-diagonal entries are covariance between variables, which correspond to the redundancy of data. The goal of principal compononts analysis is to find a orthogonal !http://latex.codecogs.com/gif.latex?\inline&space;m\times&space;m! matrix __U__ that determin a change of variable, __X=UY__, with the property that the new variables !http://latex.codecogs.com/gif.latex?\inline&space;\left&space;\{&space;y_{1},y_{2},...,y_{n}&space;\right&space;\}! are uncorrelated and arranged in order of decreasing variance.
 
-p<>. It is not difficult to verify that for any orthogonal matrix __U__, !http://latex.codecogs.com/gif.latex?\inline&space;C_{Y}=YY^{T}=U^{T}C_{X}U! is the sample covariance matrix of __Y__. As has proved that a matrix is orthogonally diagonalizable if and only if it is a symmetrical matrix, we could find a particular __U__ and have !http://latex.codecogs.com/gif.latex?\inline&space;C_{Y}=U^{T}C_{X}U=D!. Now that the covariance matrix is a diagonal matrix, the new variables are uncorrelated and arranged in order of decreasing variance.
+p<>. It is not difficult to verify that for any orthogonal matrix __U__, !http://latex.codecogs.com/gif.latex?\inline&space;C_{Y}=YY^{T}=U^{T}C_{X}U! is the sample covariance matrix of __Y__. As has proved that a matrix is orthogonally diagonalizable if and only if it is a symmetrical matrix, which is to say that we can find a particular __U__ and have !http://latex.codecogs.com/gif.latex?\inline&space;C_{Y}=U^{T}C_{X}U=D!. The columns vectors of __U__ is eigenvectors of !http://latex.codecogs.com/gif.latex?\inline&space;C_{X}!, each of which is a "principal component", and the corresponding diagonal entry is the corresponding eigenvalue. Now that the covariance matrix is a diagonal matrix, the new variables are uncorrelated and arranged in order of decreasing variance.
+
+p<>. A random sample from a two-dimensional normal distribution will be used to demonstrate such a process.
+
+bc.. > X.t <- mvrnorm(n=1000, mu=c(0,0), Sigma=matrix(c(5,4,4,4), nrow=2))
+> C.x <- t(X.t) %*% X.t / (1000-1)  # sample covariance matrix of X
+> C.x
+         [,1]     [,2]
+[1,] 5.067424 4.076891
+[2,] 4.076891 4.040560
+
+> U <- prcomp(X.t)[['rotation']]  # calculate U
+> U
+            PC1        PC2
+[1,] -0.7497941 -0.6616712
+[2,] -0.6616712  0.7497941
+
+> Y <- t(U) %*% t(X.t)  # change variable
+> C.y <- Y %*% t(Y) / (1000-1)  # sample covariance matrix of Y
+> C.y
+            [,1]        [,2]
+[1,] 8.663085675 0.002350951
+[2,] 0.002350951 0.444898567
+
+p<>. Clouds of before-and-after datas:
+
+!{display: block;margin-left: auto;margin-right: auto;width: 85%;height: auto;}/images/dim/XY.jpeg!
 
 p<>. Compared with principal components analysis, singular value decomposition is derived in a much more unmotivated fasion. The definition is given as follows:
 
-bq.. Let __X__ be an !http://latex.codecogs.com/gif.latex?\inline&space;m\times&space;n! matrix with rank __r__. There exists an !http://latex.codecogs.com/gif.latex?\inline&space;m\times&space;n! matrix __D__ in which the first non-zero diagonal entries are the first __r__ singular values of __X__, and there exist an !http://latex.codecogs.com/gif.latex?\inline&space;m\times&space;m! orthogonal matrix __U__ and an !http://latex.codecogs.com/gif.latex?\inline&space;n\times&space;n! orthogonal matrix V sush that:
+bq<>.. Let __X__ be an !http://latex.codecogs.com/gif.latex?\inline&space;m\times&space;n! matrix with rank __r__. There exists an !http://latex.codecogs.com/gif.latex?\inline&space;m\times&space;n! matrix __D__ in which the first non-zero diagonal entries are the first __r__ singular values of __X__, and there exist an !http://latex.codecogs.com/gif.latex?\inline&space;m\times&space;m! orthogonal matrix __U__ and an !http://latex.codecogs.com/gif.latex?\inline&space;n\times&space;n! orthogonal matrix V sush that:
 
 !{display: block;margin-left: auto;margin-right: auto;}http://latex.codecogs.com/gif.latex?X=UDV^{T}!
 
-p<>. where !http://latex.codecogs.com/gif.latex?\inline&space;v_{i}! are corresponding eigenvectors of !http://latex.codecogs.com/gif.latex?\inline&space;X^{T}X! and !http://latex.codecogs.com/gif.latex?u_{i}=\frac{1}{\sigma&space;_{i}}Av_{i}!.
+where !http://latex.codecogs.com/gif.latex?\inline&space;v_{i}! are corresponding eigenvectors of !http://latex.codecogs.com/gif.latex?\inline&space;X^{T}X! and !http://latex.codecogs.com/gif.latex?u_{i}=\frac{1}{\sigma&space;_{i}}Av_{i}!.
 
 p<>. One can make this definition more understandable by linking it with principal components analysis. We have the matrix products:
 
@@ -46,9 +73,12 @@ p<>. It turns out that when you select the __k__ largest singular values, and th
 
 p<>. Again let !http://latex.codecogs.com/gif.latex?\inline&space;Y=\Sigma&space;V^{T}! such that the matrix __U__ defines a change of variable __X=UY__. We can now do the following:
 
-* Comparing documents __j__ and __q__ in the __k__-dimensional space by comparing the vectors !https://upload.wikimedia.org/math/d/4/8/d48bf0c5d796cd7129104f02903526a7.png! and !https://upload.wikimedia.org/math/7/3/5/73504ad62a1375c5157b177fd6ef8e09.png!.
+* Comparing documents __j__ and __q__ in the __k__-dimensional space by comparing the vectors !https://upload.wikimedia.org/math/d/4/8/d48bf0c5d796cd7129104f02903526a7.png! and !https://upload.wikimedia.org/math/7/3/5/73504ad62a1375c5157b177fd6ef8e09.png!, as was done in "LSI":https://en.wikipedia.org/wiki/Latent_semantic_indexing.
 * Comparing terms __i__ and __p__ in the __k__-dimensional space by comparing the vectors !https://upload.wikimedia.org/math/b/8/c/b8c73253d8c92466f90f688d9f1317d2.png! and !https://upload.wikimedia.org/math/a/1/7/a1724938177134815788d98c20b7dabb.png!.
 * Any traditional clustering algorithms or other analyses can be applied in this reduced __k__-dimensional space.
+
+<h3 id="note">Numerical note</h3>
+
 
 <h3 id="con">More considerations</h3>
 
@@ -56,8 +86,8 @@ p<>. Although PCA works well on many real world problems, one may ask when and w
 
 !{display: block;margin-left: auto;margin-right: auto;width: 70%;height: auto;}/images/dim/Screen.png!
 
-p<>. In Pearson's original paper, the analysis is restricted in physical Euclidean space where the scaling of the variables is out of concerns. While it is worth our attention whenever different variables have different units, as the variables with far larger scale will necessarily dominate the principal components, thus the analysis becomes a somewhat arbitray method.
-
-p<>. The motivation of PCA is to diagonalize the sample covariance matrix, which is a measure of linear relation between variables. Only in parts of distributions, e.g. Gaussian distribution, linear relation is a perfect measure of the relation between variables. Generally we say PCA is under the Gaussian assumption. While in the cases above, the original variables are heavily related in a non-linear fasion and Gaussian distribution is far from an appropriate approximation to the data.
+p<>. The motivation of PCA is to diagonalize the sample covariance matrix which measures linear relation between variables. Only in parts of distributions, e.g. Gaussian distribution, linear relation is a perfect measure of the relation between variables. Generally we say PCA is under the Gaussian assumption. While in the cases above, the original variables are heavily related in a non-linear fasion and Gaussian distribution is far from an appropriate approximation to the data.
 
 p<>. Likewise, when we apply SVD to the occuerence matrix, we can hardly say the words and documents form a joint Gaussian model. In fact, a Poisson distribution has been observed. Thus, a newer alternative probabilistic LSA, based on a multinomial model, is reported to give better results than standard LSA.
+
+p<>. Besides, in Pearson's original paper, the analysis is restricted in physical Euclidean space where the scaling of the variables is out of concerns. While it is worth our attention when different variables have different units, as the variables with far larger scale will necessarily dominate the principal components, thus the analysis becomes a somewhat arbitray method.

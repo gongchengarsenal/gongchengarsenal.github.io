@@ -3,7 +3,7 @@ title: The Logic of Machine Learning
 layout: post
 category: math
 ---
-p<>. First keep in mind that a machine learning problem is the mathematical abstraction of a real-world problem. So, to solve a real-world problem correctly one should proceed in two steps. Make an appropriate abstraction, say the machine learning problem first, and than solve this problem. Though the former is the prerequisite, it is a rather domain specific consideration, so this article shall starts from the more general step 2.
+p<>. To be clear, discussion in this article is constrained to the supervised learning. First keep in mind that a machine learning problem is a mathematical abstraction of a real world problem. Therefore, to solve a real world problem correctly one should proceed in two steps. Firstly make an appropriate abstraction, say the machine learning problem, by carefully designing the features and drawing the training data, the latter of which should be a good reflection of the corresponding real world problem. After the first step, one could choose a model and fit it over the training data. Though the former step is the prerequisite and is of the most importance, it is a rather domain specific consideration. The bulk of this article will focuse on the more general step two.
 
 h4. **Link function**
 
@@ -13,11 +13,11 @@ p<>. A regression model has the form:
 
 !{display: block;margin-left: auto;margin-right: auto;width: 20%;height: auto;}http://latex.codecogs.com/gif.latex?Y=f\left&space;(&space;x&space;\right&space;)&space;&plus;&space;e!
 
-p<>. where !/images/ml/CodeCogsEqn-3.gif!. So the response is Normal distributed which gives an identity link function:
+p<>. where !/images/ml/CodeCogsEqn-3.gif!. So the response is Normal distributed which gives an __identity__ link function:
 
 !{display: block;margin-left: auto;margin-right: auto;width: 23%;height: auto;}/images/ml/CodeCogsEqn.gif!
 
-p<>. While in the binary classification problem, the response is Bernoulli distributed, and a __logit__ link function would be appropriate:
+p<>. While in the binary classification problem, the response is Bernoulli distributed, and __logit__ link function would be appropriate:
 
 !{display: block;margin-left: auto;margin-right: auto;width: 40%;height: auto;}/images/ml/CodeCogsEqn-2.gif!
 

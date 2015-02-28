@@ -101,7 +101,7 @@ h4, .h4 {
  * Main column and sidebar layout
  */
 
-.blog-main {
+blockquote, .blog-main {
   font-size: 16px;
   line-height: 1.4;
 }
