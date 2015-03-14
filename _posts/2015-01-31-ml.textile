@@ -3,7 +3,7 @@ title: The Logic of Machine Learning
 layout: post
 category: math
 ---
-p<>. To be clear, discussion in this article is constrained to the supervised learning. First keep in mind that a machine learning problem is a mathematical abstraction of a real world problem. Therefore, to solve a real world problem correctly one should proceed in two steps. Firstly make an appropriate abstraction, say the machine learning problem, by carefully designing the features and drawing the training data, the latter of which should be a good reflection of the corresponding real world problem. After the first step, one could choose a model and fit it over the training data. Though the former step is the prerequisite and is of the most importance, it is a rather domain specific consideration. The bulk of this article will focuse on the more general step two.
+p<>. To be clear, discussion in this article is constrained to the supervised learning. First keep in mind that a machine learning problem is a mathematical abstraction of a real world problem. Therefore, to solve a real world problem correctly one should proceed in two steps. Firstly make an appropriate abstraction, say the machine learning problem, by carefully designing the features and drawing the training data. After the first step, one could choose a model and then fit it over the training data. Though the former step is the prerequisite and is of the most importance, it is a rather domain specific consideration. The bulk of this article will focus on the more general step two.
 
 h4. **Link function**
 
