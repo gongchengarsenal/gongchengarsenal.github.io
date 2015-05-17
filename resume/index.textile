@@ -9,17 +9,21 @@ layout: resume
 * GitHub: https://github.com/gongchengarsenal
 
 <h3 style="text-align:center;"><strong>PROFESSIONAL SKILL</strong></h3>
-* Proficient in data structure & algorithm. Python = Java > R = Scala
-* Well understand the programming and internals of the Spark platform
-* Solid background in statistics, linear algebra, machine learning and information retrieval
+* Proficient in data structure & algorithm. Python = Java > Scala = R
+* Well understand the programming and internals of Apache Spark
+* Solid background in statistics, linear algebra, and machine learning. Basic knowledge of information retrieval and NLP
 
 <h3 style="text-align:center;"><strong>WORK EXPERIENCE</strong></h3>
-* _*Microsoft STC Asia*_ _(intership 2013.7-2013.10)_
-* LR based click prediction model: mainly in charge of feature designing (use Kmeans and CART to bin and cross feature) and bug fixing of the pipeline
-* _*Meituan*_, _*mobile search team*_ _(2013.12-2015.4)_
-* Search rerank and suggestion box rerank: developed some models like FTRL, GBT (local/distributed implementation) and GBRank in Java or Scala. 
-* "No hit" search recommendation: the techniques used include collaborative filtering, word2vec, text classification, vector space model and latent sementic indexing.
+* _*Microsoft STC Asia*_ _(intership 2013.7-2013.9)_
+* Worked with a LR click prediction model, mainly in charge of feature processing (use Kmeans and CART to bin and cross feature) and bug fixing of the model training pipeline
+* _*Meituan*_, _*mobile search team*_ _(2013.12-2015.5)_
+* Developed some learning models like FTRL, GBT (local/Spark) and GBRank
+* Designed semantic features (BM25, SVD and query expansion) for product search rerank and served them to online prediction
+* Employed some techniques, which include collaborative filtering, word2vec, query intention analysis and vector space model to handle the no result searches
+* Fully in charge of the search suggestion rerank, including feature designing, model training and online service
+* Optimized the purchase rate by reranking the search suggestions with a cascade of prediction models
+* Exploited user context with the (statistical/neural net) language models in order to personalize the search suggestion rerank.
 
 <h3 style="text-align:center;"><strong>EDUCATION</strong></h3>
-* M.S., Communication and Information System, Beijing University of Posts and Communications, Major GPA: 84
-* B.S., Optical Information Science and Technology, Nanjing University of Aeronautics and Astronautics, Major GPA: 80
+* M.S., Communication and Information System, Beijing University of Posts and Communications
+* B.S., Optical Information Science and Technology, Nanjing University of Aeronautics and Astronautics
